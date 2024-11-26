@@ -1,3 +1,10 @@
+function init() {
+  for (let i = 0; i < books.length; i++) {
+    getFromLocalStorage(i);
+  }
+  getBooksInformation();
+}
+
 function getBooksInformation() {
   let contentRef = document.getElementById("book-display");
   contentRef.innerHTML = "";
@@ -46,5 +53,35 @@ function heartButton(indexBook) {
     likeElement.innerHTML = books[indexBook].likes;
 
     saveToLocalStorage(indexBook);
+  }
+}
+
+function saveToLocalStorage(indexBook) {
+  localStorage.setItem(
+    `comments_${indexBook}`,
+    JSON.stringify(books[indexBook].comments)
+  );
+  localStorage.setItem(
+    `like-count-${indexBook}`,
+    JSON.stringify(books[indexBook].likes)
+  );
+  localStorage.setItem(
+    `heart-button-${indexBook}`,
+    JSON.stringify(books[indexBook].liked)
+  );
+}
+
+function getFromLocalStorage(indexBook) {
+  let storedComments = localStorage.getItem(`comments_${indexBook}`);
+  if (storedComments) {
+    books[indexBook].comments = JSON.parse(storedComments);
+  }
+  let storedLikes = localStorage.getItem(`like-count-${indexBook}`);
+  if (storedLikes) {
+    books[indexBook].likes = JSON.parse(storedLikes);
+  }
+  let storedHeart = localStorage.getItem(`heart-button-${indexBook}`);
+  if (storedHeart) {
+    books[indexBook].liked = JSON.parse(storedHeart);
   }
 }
